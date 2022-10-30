@@ -11,7 +11,7 @@ db.once('open', () => console.log("database connected"))
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
     console.log("server connected")
 })
 const isAplha = () => {
@@ -61,12 +61,16 @@ app.post('/evaluate',async (req,res) => {
         const data = await CharVal.where('A').equals(1)
         const val = {A : data[0].A , B : data[0].B , C : data[0].C , D : data[0].D , E : data[0].E}
         for(let i = 0;i < expression.length;i++){
-            if(i % 2 == 0)
+            if(i % 2 == 0){
+                if(expression[i] >= 'A' && expression[i] <= 'E')
                 lhs = lhs + (String)(val[expression[i]])
+                else
+                lhs = lhs + (String)(expression[i])
+            }
             else
-                lhs = lhs + expression[i]
+                lhs = lhs + (String)(expression[i])
         }
-        console.log(eval(lhs))
+        console.log(lhs)
         lhs = eval(lhs)
         res.status(201).send((String)(lhs))
     } catch (error) {
