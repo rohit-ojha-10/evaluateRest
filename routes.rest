@@ -1,0 +1,14 @@
+GET http://localhost:8000/
+ 
+###
+
+POST http://localhost:8000/evaluate
+Content-Type: application/json
+
+{
+    "exp" :"['A','+','B']"
+}
+
+
+### 
+DELETE http://localhost:8000/
